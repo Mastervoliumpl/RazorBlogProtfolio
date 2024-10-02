@@ -3,7 +3,7 @@ using RazorBlogProtfolio.Reposetories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container. AddRazorPages adds services for Razor Pages to the app.
 builder.Services.AddRazorPages();
 
 builder.Services.AddSingleton<IBlogPostRepo, BlogPostRepo>()
@@ -34,7 +34,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapRazorPages(); // This is the default route for Razor Pages
+app.MapRazorPages(); // MapRazorPages adds endpoints for Razor Pages to the IEndpointRouteBuilder.
 
 app.Run();
 
