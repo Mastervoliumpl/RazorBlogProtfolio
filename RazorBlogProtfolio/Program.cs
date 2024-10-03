@@ -14,13 +14,6 @@ builder.Services.AddSingleton<IBlogPostRepo, BlogPostRepo>()
 
 var app = builder.Build();
 
-// Resolve the dependencies from the container
-//var portfolioRepo = app.Services.GetRequiredService<IPortfolioRepo>();
-//var blogPostRepo = app.Services.GetRequiredService<IBlogPostRepo>();
-//var imageRepo = app.Services.GetRequiredService<IImageRepo>();
-//var postRepo = app.Services.GetRequiredService<IPostRepo>();
-//var tagRepo = app.Services.GetRequiredService<ITagRepo>();
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

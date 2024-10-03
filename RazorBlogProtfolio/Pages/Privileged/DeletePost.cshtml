@@ -1,0 +1,22 @@
+﻿@page "{id:guid}"
+@model DeletePostModel
+@{
+    ViewData["Title"] = "Delete Post";
+}
+
+<div class="container mt-5">
+    <h1>Are you sure you want to delete this post?</h1>
+
+    <div class="form-group">
+        <label>Post Title:</label>
+        <input class="form-control" value="@Model.Post.Title" disabled />
+    </div>
+
+    <!-- Confirm Delete Button triggers OnPostDelete -->
+    <form method="post">
+        <button class="btn btn-danger mt-3" type="submit">Confirm Delete</button>
+    </form>
+
+    <!-- Cancel Button -->
+    <a asp-page="/Index" class="btn btn-secondary mt-3">Cancel</a>
+</div>

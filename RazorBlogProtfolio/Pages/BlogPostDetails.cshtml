@@ -1,0 +1,26 @@
+﻿@page "{id:guid}"
+@model BlogPostDetailsModel
+@{
+    ViewData["Title"] = Model.BlogPost.Title;
+}
+
+<div class="container mt-5">
+    <h1>@Model.BlogPost.Title</h1>
+
+    <!-- Author line -->
+    <small class="text-muted">By @Model.BlogPost.Author.FirstName @Model.BlogPost.Author.LastName</small>
+
+    <!-- Display posted and modified dates on the same line and smaller -->
+    <p class="text-muted" style="font-size: smaller;">
+        Posted on: @Model.BlogPost.DateCreated.ToString("dd/MM/yyyy HH:mm")
+        @if (Model.BlogPost.DateModified != Model.BlogPost.DateCreated)
+        {
+            <span> | Last modified on: @Model.BlogPost.DateModified.ToString("dd/MM/yyyy HH:mm")</span>
+        }
+    </p>
+
+    <!-- Post content -->
+    <p>@Model.BlogPost.BodyText</p>
+    <a asp-page="Privileged/EditPost" asp-route-id="@Model.BlogPost.PostID" class="btn btn-primary mt-3">Edit Post</a>
+    <a asp-page="Privileged/DeletePost" asp-route-id="@Model.BlogPost.PostID" class="btn btn-danger mt-3">Delete Post</a>
+</div>

@@ -1,0 +1,89 @@
+﻿@page
+@model CreatePostModel
+@{
+    ViewData["Title"] = "Create Post";
+}
+
+<div class="container mt-5">
+    <h1>Create a New Post</h1>
+
+    <!-- Create Form -->
+    <form method="post">
+        <!-- Post Type Selection -->
+        <div class="form-group">
+            <label>Post Type</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" asp-for="SelectedPostType" value="BlogPost" checked>
+                <label class="form-check-label">Blog Post</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" asp-for="SelectedPostType" value="Portfolio">
+                <label class="form-check-label">Portfolio</label>
+            </div>
+        </div>
+
+        <!-- Title Field -->
+        <div class="form-group">
+            <label>Title (Max 20 characters)</label>
+            <input class="form-control" type="text" asp-for="Title" maxlength="20">
+        </div>
+
+        <!-- Author's First and Last Name in the Same Row -->
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Author First Name (Max 20 characters)</label>
+                <input class="form-control" type="text" asp-for="AuthorFirstName" maxlength="20">
+            </div>
+            <div class="form-group col-md-6">
+                <label>Author Last Name (Max 20 characters)</label>
+                <input class="form-control" type="text" asp-for="AuthorLastName" maxlength="20">
+            </div>
+        </div>
+
+        <!-- Body Text (for BlogPost) / Description (for Portfolio) -->
+        <div class="form-group" id="blogBodyText">
+            <label>Body Text</label>
+            <textarea class="form-control" asp-for="BodyText"></textarea>
+        </div>
+
+        <div class="form-group" id="portfolioDescription" style="display:none;">
+            <label>Description</label>
+            <textarea class="form-control" asp-for="Description"></textarea>
+        </div>
+
+        <!-- Submit and Cancel Buttons -->
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary">Create Post</button>
+            <a asp-page="/Index" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const postTypeRadioButtons = document.querySelectorAll('input[name="SelectedPostType"]');
+        const blogBodyText = document.getElementById("blogBodyText");
+        const portfolioDescription = document.getElementById("portfolioDescription");
+
+        function toggleFields() {
+            const selectedPostType = document.querySelector('input[name="SelectedPostType"]:checked').value;
+            if (selectedPostType === "BlogPost") {
+                blogBodyText.style.display = "block";
+                portfolioDescription.style.display = "none";
+            } else {
+                blogBodyText.style.display = "none";
+                portfolioDescription.style.display = "block";
+            }
+        }
+
+        // Initial toggle based on default selection
+        toggleFields();
+
+        // Add event listeners to toggle dynamically when post type changes
+        postTypeRadioButtons.forEach(function (radio) {
+            radio.addEventListener("change", function () {
+                toggleFields();
+            });
+        });
+    });
+</script>

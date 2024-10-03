@@ -1,0 +1,26 @@
+﻿@page
+@model PortfolioModel
+@{
+    ViewData["Title"] = "Portfolio";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Portfolio Projects</h1>
+    <div class="row">
+        @foreach (var item in Model.PortfolioItems)
+        {
+            <div class="col-md-4 mb-4 d-flex justify-content-center">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Title</h5>
+                        <p class="card-text">@item.Description</p>
+                        <p class="card-text">Posted on: @item.DateCreated.ToString("dd/MM/yyyy")</p>
+                        <p class="card-text"><small>By @item.Author.FirstName @item.Author.LastName</small></p>
+                        <a asp-page="Privileged/EditPost" asp-route-id="@item.PostID" class="btn btn-primary mt-3">Edit Post</a>
+                        <a asp-page="Privileged/DeletePost" asp-route-id="@item.PostID" class="btn btn-danger mt-3">Delete Post</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
