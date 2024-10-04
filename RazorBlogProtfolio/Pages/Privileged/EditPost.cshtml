@@ -4,36 +4,52 @@
     ViewData["Title"] = "Edit Post";
 }
 
-<div class="container mt-5">
-    <h1>Edit Post</h1>
+@if (Model.Post != null)
+{
+    <div class="container mt-5">
+        <h1>Edit Post</h1>
 
-    <!-- Edit Form -->
-    <form method="post">
-        <div class="form-group">
-            <label>Title (Max 20 characters)</label>
-            <input class="form-control" type="text" asp-for="Title" maxlength="20">
-        </div>
+        <!-- Validation Summary -->
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <!-- Dynamic BodyText or Description based on PostType -->
-        <div class="form-group" id="blogBodyText" style="display:none;">
-            <label>Body Text</label>
-            <textarea class="form-control" asp-for="BodyText"></textarea>
-        </div>
+        <!-- Edit Form -->
+        <form method="post">
+            <!-- Title Field -->
+            <div class="form-group">
+                <label>Title (Max 20 characters)</label>
+                <input class="form-control" type="text" asp-for="Title" maxlength="20" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
 
-        <div class="form-group" id="portfolioDescription" style="display:none;">
-            <label>Description</label>
-            <textarea class="form-control" asp-for="Description"></textarea>
-        </div>
+            <!-- Body Text / Description -->
+            <div class="form-group" id="blogBodyText" style="display:none;">
+                <label>Body Text</label>
+                <textarea class="form-control" asp-for="BodyText"></textarea>
+                <span asp-validation-for="BodyText" class="text-danger"></span>
+            </div>
 
-        <!-- Submit and Cancel buttons -->
-        <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
-        <a asp-page="/Index" class="btn btn-secondary mt-3">Cancel</a>
-    </form>
-</div>
+            <div class="form-group" id="portfolioDescription" style="display:none;">
+                <label>Description</label>
+                <textarea class="form-control" asp-for="Description"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <!-- Submit and Cancel buttons -->
+            <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+            <a asp-page="/Index" class="btn btn-secondary mt-3">Cancel</a>
+        </form>
+    </div>
+}
+else
+{
+    <div class="container mt-5">
+        <h2>Post not found.</h2>
+    </div>
+}
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const postType = '@Model.Post.PostType'; // Dynamically retrieved from the server
+        const postType = '@Model.Post?.PostType'; // Dynamically retrieved from the server
 
         const blogBodyText = document.getElementById("blogBodyText");
         const portfolioDescription = document.getElementById("portfolioDescription");

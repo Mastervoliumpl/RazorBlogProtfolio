@@ -12,11 +12,9 @@
         <input class="form-control" value="@Model.Post.Title" disabled />
     </div>
 
-    <!-- Confirm Delete Button triggers OnPostDelete -->
+    <!-- Confirm Delete Button triggers OnPost & Cancel button -->
     <form method="post">
         <button class="btn btn-danger mt-3" type="submit">Confirm Delete</button>
+        <a asp-page="/Index" class="btn btn-secondary mt-3">Cancel</a>
     </form>
-
-    <!-- Cancel Button -->
-    <a asp-page="/Index" class="btn btn-secondary mt-3">Cancel</a>
 </div>

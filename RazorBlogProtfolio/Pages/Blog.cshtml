@@ -10,39 +10,15 @@
         @foreach (var post in Model.BlogPosts)
         {
             <div class="col-md-4 mb-4 d-flex justify-content-center">
-                <div class="card" style="width: 18rem;">
+                <div class="card bg-dark text-light" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">@post.Title</h5>
                         <p class="card-text">@post.BodyText.Substring(0, Math.Min(post.BodyText.Length, 100))...</p>
                         <a asp-page="/BlogPostDetails" asp-route-id="@post.PostID" class="btn btn-primary">Read More</a>
-                        <!-- Format Date to '03/10/2024' -->
-                        <p class="card-text">
-                            Posted on: @post.DateCreated.ToString("dd/MM/yyyy")
-                        </p>
+                        <p class="card-text mt-2">Posted on: @post.DateCreated.ToString("dd/MM/yyyy HH:mm")</p>
                     </div>
                 </div>
             </div>
         }
     </div>
 </div>
-
-
-
-<!-- JavaScript for client-side timezone conversion stuff -->
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var dateElements = document.querySelectorAll('.post-date');
-
-        dateElements.forEach(function (element) {
-            var utcDate = element.getAttribute('data-date');
-            var localDate = new Date(utcDate);
-
-            // Display the local time in the span
-            element.textContent = localDate.toLocaleDateString(undefined, {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
-            });
-        });
-    });
-</script>

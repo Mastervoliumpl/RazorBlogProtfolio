@@ -17,14 +17,11 @@ public class PortfolioModel : PageModel
     {
         var posts = _postRepo.GetAllPosts().Where(p => p.PostType == PostType.Portfolio).Cast<Portfolio>().ToList();
 
-        // Assume a default timezone (e.g., America/New_York)
-        TimeZoneInfo userTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-
         PortfolioItems = posts.Select(post => new PortfolioViewModel
         {
             Title = post.Title,
             Description = post.Description,
-            DateCreated = TimeZoneInfo.ConvertTimeFromUtc(post.DateCreated.UtcDateTime, userTimeZone),
+            DateCreated = post.DateCreated,
             Author = post.Author,
             PostID = post.PostID
         }).ToList();
@@ -35,7 +32,7 @@ public class PortfolioViewModel
 {
     public string Title { get; set; }
     public string Description { get; set; }
-    public DateTime DateCreated { get; set; }
+    public DateTimeOffset DateCreated { get; set; }
     public Author Author { get; set; }
     public Guid PostID { get; set; }
 }
