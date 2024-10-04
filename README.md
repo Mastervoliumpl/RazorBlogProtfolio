@@ -14,8 +14,13 @@ This project creates the backend for a devblog and portfolio website. SOLID was 
 - C# 12 
 - .NET 8
 - Razor Pages
+- xUnit Test
+- Moq
   
 ## Changelogs:
+- 1.0.1
+Readded unit tests from last repo
+
 - 1.0.0
 The basis functionality works, finishing polishes and tweaks. 
 
