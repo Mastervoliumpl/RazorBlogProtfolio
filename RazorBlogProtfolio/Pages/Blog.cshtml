@@ -14,7 +14,7 @@
                     <div class="card-body">
                         <h5 class="card-title">@post.Title</h5>
                         <p class="card-text">@post.BodyText.Substring(0, Math.Min(post.BodyText.Length, 100))...</p>
-                        <a asp-page="/BlogPostDetails" asp-route-id="@post.PostID" class="btn btn-primary">Read More</a>
+                        <a asp-page="/BlogPostDetails" asp-route-id="@post.PostID" class="btn btn-outline-primary">Read More</a>
                         <p class="card-text mt-2">Posted on: @post.DateCreated.ToString("dd/MM/yyyy HH:mm")</p>
                     </div>
                 </div>
