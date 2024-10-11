@@ -4,9 +4,9 @@ namespace RazorBlogProtfolio.Interfaces
 {
     public interface ITagRepo
     {
-        void CreateTag(string name);
-        void DeleteTag(Tag tag);
-        List<Tag> GetTags();
-        Tag GetTagByID(Guid tagID);
+        Task CreateTagAsync(string name);
+        Task DeleteTagAsync(Tag tag);
+        Task<List<Tag>> GetTagsAsync();
+        Task<Tag> GetTagByIDAsync(Guid tagID);
     }
 }

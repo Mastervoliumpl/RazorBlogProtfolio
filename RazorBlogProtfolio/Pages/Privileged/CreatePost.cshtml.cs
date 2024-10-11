@@ -7,11 +7,15 @@ public class CreatePostModel : PageModel
 {
     private readonly IBlogPostRepo _blogPostRepo;
     private readonly IPortfolioRepo _portfolioRepo;
+    private readonly IAuthorRepo _authorRepo;
 
-    public CreatePostModel(IBlogPostRepo blogPostRepo, IPortfolioRepo portfolioRepo)
+    private Author _author;
+
+    public CreatePostModel(IBlogPostRepo blogPostRepo, IPortfolioRepo portfolioRepo, IAuthorRepo authorRepo)
     {
         _blogPostRepo = blogPostRepo;
         _portfolioRepo = portfolioRepo;
+        _authorRepo = authorRepo;
     }
 
     [BindProperty]
@@ -26,23 +30,31 @@ public class CreatePostModel : PageModel
     [BindProperty]
     public string Description { get; set; }
 
-    [BindProperty]
-    public string AuthorFirstName { get; set; }
-
-    [BindProperty]
-    public string AuthorLastName { get; set; }
-
-    public IActionResult OnPost()
+    public async Task<IActionResult> OnPostAsync()
     {
-        var author = new Author(AuthorFirstName, AuthorLastName);
+        var allAuthors = await _authorRepo.GetAllAuthorsAsync();
+        if (allAuthors.Count == 1)
+        {
+            _author = allAuthors.First();
+        }
+        else if (!allAuthors.Any())
+        {
+            await _authorRepo.AddAuthorAsync("Jakub", "Fijalkowski", "JAFI", "password123", true);
+            allAuthors = await _authorRepo.GetAllAuthorsAsync();
+            _author = allAuthors.First();
+        }
+        else
+        {
+            throw new Exception("More than one author found, which is unexpected.");
+        }
 
         if (SelectedPostType == "BlogPost")
         {
-            _blogPostRepo.CreateBlogPost(Title, BodyText, author);
+            await _blogPostRepo.CreateBlogPostAsync(Title, BodyText, _author);
         }
         else if (SelectedPostType == "Portfolio")
         {
-            _portfolioRepo.CreatePortfolioPost(Title, Description, author);
+            await _portfolioRepo.CreatePortfolioPostAsync(Title, Description, _author);
         }
 
         return RedirectToPage("/Index");

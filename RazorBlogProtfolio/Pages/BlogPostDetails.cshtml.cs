@@ -14,9 +14,9 @@ public class BlogPostDetailsModel : PageModel
         _postRepo = postRepo;
     }
 
-    public IActionResult OnGet(Guid id)
+    public async Task<IActionResult> OnGetAsync(Guid id)
     {
-        BlogPost = _postRepo.GetPostByID(id) as BlogPost;
+        BlogPost = await _postRepo.GetPostByIDAsync(id) as BlogPost;
 
         if (BlogPost == null)
         {

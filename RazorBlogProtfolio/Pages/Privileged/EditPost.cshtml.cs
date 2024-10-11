@@ -27,41 +27,41 @@ public class EditPostModel : PageModel
 
     public Post Post { get; set; }
 
-    public void OnGet(Guid id)
+    public async Task OnGetAsync(Guid id)
     {
         // Fetch the post using the passed id
-        Post = _postRepo.GetPostByID(id);
+        Post = await _postRepo.GetPostByIDAsync(id);
 
         if (Post.PostType == PostType.BlogPost)
         {
             Title = Post.Title;
-            BodyText = ((BlogPost)Post).BodyText; // Cast to BlogPost to get BodyText
+            BodyText = ((BlogPost)Post).BodyText;
         }
         else if (Post.PostType == PostType.Portfolio)
         {
             Title = Post.Title;
-            Description = ((Portfolio)Post).Description; // Cast to Portfolio to get Description
+            Description = ((Portfolio)Post).Description;
         }
     }
 
-    public IActionResult OnPost(Guid id)
+    public async Task<IActionResult> OnPostAsync(Guid id)
     {
-        // Fetch the post again in case it has been modified
-        var post = _postRepo.GetPostByID(id);
+        // Fetch post again cause it was modified
+        var post = await _postRepo.GetPostByIDAsync(id);
 
         if (post.PostType == PostType.BlogPost)
         {
             BlogPost blogPost = (BlogPost)post;
             blogPost.Title = Title;
             blogPost.BodyText = BodyText;
-            _blogPostRepo.EditBlogPost(blogPost.Title, blogPost.BodyText, blogPost.PostID);
+            await _blogPostRepo.EditBlogPostAsync(blogPost.Title, blogPost.BodyText, blogPost.PostID);
         }
         else if (post.PostType == PostType.Portfolio)
         {
             Portfolio portfolioPost = (Portfolio)post;
             portfolioPost.Title = Title;
             portfolioPost.Description = Description;
-            _portfolioRepo.EditPortfolioPost(portfolioPost.Title, portfolioPost.Description, portfolioPost.PostID);
+            await _portfolioRepo.EditPortfolioPostAsync(portfolioPost.Title, portfolioPost.Description, portfolioPost.PostID);
         }
 
         return RedirectToPage("/Index");

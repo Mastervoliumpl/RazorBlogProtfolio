@@ -1,8 +1,8 @@
 ﻿namespace RazorBlogProtfolio.Models
 {
-    public class Tag(string name)
+    public class Tag
     {
-        public Guid TagID { get; init; } = Guid.NewGuid();
-        public string TagName { get; set; } = name;
+        public Guid TagID { get; init; }
+        public string TagName { get; set; }
     }
 }

@@ -1,43 +1,97 @@
 ﻿using RazorBlogProtfolio.Models;
 using RazorBlogProtfolio.Interfaces;
+using RazorBlogProtfolio.Helpers;
+using System.Data;
 
 namespace RazorBlogProtfolio.Reposetories
 {
     public class TagRepo : ITagRepo
     {
-        private readonly List<Tag> _tags = [];
+        private readonly IDatabaseHelper _databaseHelper;
 
-        public void CreateTag(string name)
+        public TagRepo(IDatabaseHelper databaseHelper)
+        {
+            _databaseHelper = databaseHelper;
+        }
+
+        public async Task CreateTagAsync(string name)
         {
             if (string.IsNullOrEmpty(name))
             {
                 throw new ArgumentException("Tag name cannot be null or empty.");
             }
-            Tag tag = new(name);
-            _tags.Add(tag);
-        }
 
-        public void DeleteTag(Tag tag)
-        {
-            Tag foundTag = _tags.Find(t => t.TagID == tag.TagID);
-            if (foundTag != null)
+            using (var connection = _databaseHelper.GetConnection())
             {
-                _tags.Remove(foundTag);
-            }
-            else
-            {
-                throw new ArgumentException("Tag does not exist.");
+                using (var command = _databaseHelper.GetCommand("CreateTag", connection))
+                {
+                    command.Parameters.AddWithValue("@TagName", name);
+                    await connection.OpenAsync();
+                    await command.ExecuteNonQueryAsync();
+                }
             }
         }
 
-        public List<Tag> GetTags()
+        public async Task DeleteTagAsync(Tag tag)
         {
-            return _tags;
+            using (var connection = _databaseHelper.GetConnection())
+            {
+                using (var command = _databaseHelper.GetCommand("DeleteTag", connection))
+                {
+                    command.Parameters.AddWithValue("@TagID", tag.TagID);
+                    await connection.OpenAsync();
+                    await command.ExecuteNonQueryAsync();
+                }
+            }
         }
 
-        public Tag GetTagByID(Guid tagID)
+        public async Task<List<Tag>> GetTagsAsync()
         {
-            return _tags.Find(t => t.TagID == tagID);
+            var tags = new List<Tag>();
+            using (var connection = _databaseHelper.GetConnection())
+            {
+                using (var command = _databaseHelper.GetCommand("SELECT * FROM Tag", connection, CommandType.Text))
+                {
+                    await connection.OpenAsync();
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            tags.Add(new Tag
+                            {
+                                TagID = reader.GetGuid(reader.GetOrdinal("TagID")),
+                                TagName = reader.GetString(reader.GetOrdinal("TagName"))
+                            });
+                        }
+                    }
+                }
+            }
+            return tags;
+        }
+
+        public async Task<Tag> GetTagByIDAsync(Guid tagID)
+        {
+            Tag tag = null;
+            using (var connection = _databaseHelper.GetConnection())
+            {
+                using (var command = _databaseHelper.GetCommand("SELECT * FROM Tag WHERE TagID = @TagID", connection, CommandType.Text))
+                {
+                    command.Parameters.AddWithValue("@TagID", tagID);
+                    await connection.OpenAsync();
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            tag = new Tag
+                            {
+                                TagID = reader.GetGuid(reader.GetOrdinal("TagID")),
+                                TagName = reader.GetString(reader.GetOrdinal("TagName"))
+                            };
+                        }
+                    }
+                }
+            }
+            return tag;
         }
     }
 }

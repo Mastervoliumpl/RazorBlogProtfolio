@@ -1,3 +1,4 @@
+using RazorBlogProtfolio.Helpers;
 using RazorBlogProtfolio.Interfaces;
 using RazorBlogProtfolio.Reposetories;
 
@@ -7,10 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 builder.Services.AddSingleton<IBlogPostRepo, BlogPostRepo>()
-                .AddSingleton<IImageRepo, ImageRepo>()
                 .AddSingleton<IPortfolioRepo, PortfolioRepo>()
                 .AddSingleton<ITagRepo, TagRepo>()
-                .AddSingleton<IPostRepo, PostRepo>();
+                .AddSingleton<IPostRepo, PostRepo>()
+                .AddSingleton<IAuthorRepo, AuthorRepo>()
+                .AddSingleton<IDatabaseHelper, DatabaseHelper>();
 
 var app = builder.Build();
 

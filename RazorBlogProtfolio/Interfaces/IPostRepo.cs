@@ -4,12 +4,11 @@ namespace RazorBlogProtfolio.Interfaces
 {
     public interface IPostRepo
     {
-        void AddPost(Post post);
-        void DeletePost(Guid postID);
-        List<Post> GetAllPosts();
-        Post GetPostByID(Guid postID);
-        List<Tag> GetTagsByPostID(Guid postID);
-        void AddTagToTagList(Tag tag, Guid postID);
-        void RemoveTagFromList(Tag tag, Guid postID);
+        Task DeletePostAsync(Guid postID);
+        Task<List<Post>> GetAllPostsAsync();
+        Task<Post> GetPostByIDAsync(Guid postID);
+        Task<List<Tag>> GetTagsByPostIDAsync(Guid postID);
+        Task AddTagToPostAsync(Tag tag, Guid postID);
+        Task RemoveTagFromPostAsync(Tag tag, Guid postID);
     }
 }

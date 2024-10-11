@@ -13,12 +13,15 @@ public class PortfolioModel : PageModel
         _postRepo = postRepo;
     }
 
-    public void OnGet()
+    public async Task OnGetAsync()
     {
-        var posts = _postRepo.GetAllPosts().Where(p => p.PostType == PostType.Portfolio).Cast<Portfolio>().ToList();
+        var posts = (await _postRepo.GetAllPostsAsync())
+                    .Where(p => p.PostType == PostType.Portfolio)
+                    .Cast<Portfolio>()
+                    .ToList();
 
-        // Assume a default timezone (e.g., America/New_York)
-        TimeZoneInfo userTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+        // Assume a default timezone
+        TimeZoneInfo userTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
 
         PortfolioItems = posts.Select(post => new PortfolioViewModel
         {

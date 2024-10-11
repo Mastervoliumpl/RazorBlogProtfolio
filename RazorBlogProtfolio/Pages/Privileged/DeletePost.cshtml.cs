@@ -14,15 +14,15 @@ public class DeletePostModel : PageModel
 
     public Post Post { get; set; }
 
-    public void OnGet(Guid id)
+    public async Task OnGetAsync(Guid id)
     {
-        // Fetch the post using the passed id
-        Post = _postRepo.GetPostByID(id);
+        // Fetch post using the id
+        Post = await _postRepo.GetPostByIDAsync(id);
     }
 
-    public IActionResult OnPost(Guid id)
+    public async Task<IActionResult> OnPostAsync(Guid id)
     {
-        _postRepo.DeletePost(id);
+        await _postRepo.DeletePostAsync(id);
         return RedirectToPage("/Index");
     }
 }

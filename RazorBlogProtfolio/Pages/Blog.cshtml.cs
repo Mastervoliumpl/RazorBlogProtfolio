@@ -5,7 +5,7 @@ using RazorBlogProtfolio.Interfaces;
 public class BlogModel : PageModel
 {
     private readonly IPostRepo _postRepo;
-    
+
     public List<BlogPostViewModel> BlogPosts { get; set; }
 
     public BlogModel(IPostRepo postRepo)
@@ -13,12 +13,12 @@ public class BlogModel : PageModel
         _postRepo = postRepo;
     }
 
-    public void OnGet()
+    public async Task OnGetAsync()
     {
-        var posts = _postRepo.GetAllPosts().Where(p => p.PostType == PostType.BlogPost).Cast<BlogPost>().ToList();
+        var posts = (await _postRepo.GetAllPostsAsync()).Where(p => p.PostType == PostType.BlogPost).Cast<BlogPost>().ToList();
 
-        // Assume a default timezone (e.g., America/New_York)
-        TimeZoneInfo userTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+        // Assume a default timezone
+        TimeZoneInfo userTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
 
         BlogPosts = posts.Select(post => new BlogPostViewModel
         {

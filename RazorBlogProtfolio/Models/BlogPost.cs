@@ -4,12 +4,14 @@
     {
         public string BodyText { get; set; }
 
-        public BlogPost(string title, Author author, string bodyText) : base(author)
+        // Constructor for creating a new blog post
+        public BlogPost(string title, Author author, string bodyText) : base(title, author)
         {
-            Title = title;
             BodyText = bodyText;
             PostType = PostType.BlogPost;
         }
 
+        // Empty constructor for deserialization/database object fetching
+        public BlogPost() { }
     }
 }
