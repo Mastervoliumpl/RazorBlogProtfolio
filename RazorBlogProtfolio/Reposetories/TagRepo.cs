@@ -2,6 +2,7 @@
 using RazorBlogProtfolio.Interfaces;
 using RazorBlogProtfolio.Helpers;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace RazorBlogProtfolio.Reposetories
 {
@@ -21,9 +22,9 @@ namespace RazorBlogProtfolio.Reposetories
                 throw new ArgumentException("Tag name cannot be null or empty.");
             }
 
-            using (var connection = _databaseHelper.GetConnection())
+            using (SqlConnection connection = _databaseHelper.GetConnection())
             {
-                using (var command = _databaseHelper.GetCommand("CreateTag", connection))
+                using (SqlCommand command = _databaseHelper.GetCommand("CreateTag", connection))
                 {
                     command.Parameters.AddWithValue("@TagName", name);
                     await connection.OpenAsync();
@@ -34,9 +35,9 @@ namespace RazorBlogProtfolio.Reposetories
 
         public async Task DeleteTagAsync(Tag tag)
         {
-            using (var connection = _databaseHelper.GetConnection())
+            using (SqlConnection connection = _databaseHelper.GetConnection())
             {
-                using (var command = _databaseHelper.GetCommand("DeleteTag", connection))
+                using (SqlCommand command = _databaseHelper.GetCommand("DeleteTag", connection))
                 {
                     command.Parameters.AddWithValue("@TagID", tag.TagID);
                     await connection.OpenAsync();
@@ -47,13 +48,13 @@ namespace RazorBlogProtfolio.Reposetories
 
         public async Task<List<Tag>> GetTagsAsync()
         {
-            var tags = new List<Tag>();
-            using (var connection = _databaseHelper.GetConnection())
+            List<Tag> tags = new List<Tag>();
+            using (SqlConnection connection = _databaseHelper.GetConnection())
             {
-                using (var command = _databaseHelper.GetCommand("SELECT * FROM Tag", connection, CommandType.Text))
+                using (SqlCommand command = _databaseHelper.GetCommand("SELECT * FROM Tag", connection, CommandType.Text))
                 {
                     await connection.OpenAsync();
-                    using (var reader = await command.ExecuteReaderAsync())
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -72,13 +73,13 @@ namespace RazorBlogProtfolio.Reposetories
         public async Task<Tag> GetTagByIDAsync(Guid tagID)
         {
             Tag tag = null;
-            using (var connection = _databaseHelper.GetConnection())
+            using (SqlConnection connection = _databaseHelper.GetConnection())
             {
-                using (var command = _databaseHelper.GetCommand("SELECT * FROM Tag WHERE TagID = @TagID", connection, CommandType.Text))
+                using (SqlCommand command = _databaseHelper.GetCommand("SELECT * FROM Tag WHERE TagID = @TagID", connection, CommandType.Text))
                 {
                     command.Parameters.AddWithValue("@TagID", tagID);
                     await connection.OpenAsync();
-                    using (var reader = await command.ExecuteReaderAsync())
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

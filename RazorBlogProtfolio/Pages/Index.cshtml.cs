@@ -28,7 +28,7 @@ namespace RazorBlogProtfolio.Pages
 
         public async Task OnGetAsync()
         {
-            var allAuthors = await _authorRepo.GetAllAuthorsAsync();
+            List<Author> allAuthors = await _authorRepo.GetAllAuthorsAsync();
             if (allAuthors.Count == 1)
             {
                 _hardcodedAuthor = allAuthors.First();
@@ -44,7 +44,7 @@ namespace RazorBlogProtfolio.Pages
                 throw new Exception("More than one author found, which is unexpected.");
             }
 
-            var allPosts = await _postRepo.GetAllPostsAsync();
+            List<Post> allPosts = await _postRepo.GetAllPostsAsync();
             if (!allPosts.Any())
             {
                 // Blog posts

@@ -15,10 +15,10 @@ public class PortfolioModel : PageModel
 
     public async Task OnGetAsync()
     {
-        var posts = (await _postRepo.GetAllPostsAsync())
-                    .Where(p => p.PostType == PostType.Portfolio)
-                    .Cast<Portfolio>()
-                    .ToList();
+        List<Portfolio> posts = (await _postRepo.GetAllPostsAsync())
+                                                .Where(p => p.PostType == PostType.Portfolio)
+                                                .Cast<Portfolio>()
+                                                .ToList();
 
         // Assume a default timezone
         TimeZoneInfo userTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");

@@ -47,7 +47,7 @@ public class EditPostModel : PageModel
     public async Task<IActionResult> OnPostAsync(Guid id)
     {
         // Fetch post again cause it was modified
-        var post = await _postRepo.GetPostByIDAsync(id);
+        Post post = await _postRepo.GetPostByIDAsync(id);
 
         if (post.PostType == PostType.BlogPost)
         {

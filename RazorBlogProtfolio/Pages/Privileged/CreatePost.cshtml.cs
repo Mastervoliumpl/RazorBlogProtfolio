@@ -32,7 +32,7 @@ public class CreatePostModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        var allAuthors = await _authorRepo.GetAllAuthorsAsync();
+        List<Author> allAuthors = await _authorRepo.GetAllAuthorsAsync();
         if (allAuthors.Count == 1)
         {
             _author = allAuthors.First();

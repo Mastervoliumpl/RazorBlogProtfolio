@@ -15,7 +15,7 @@ public class BlogModel : PageModel
 
     public async Task OnGetAsync()
     {
-        var posts = (await _postRepo.GetAllPostsAsync()).Where(p => p.PostType == PostType.BlogPost).Cast<BlogPost>().ToList();
+        List<BlogPost> posts = (await _postRepo.GetAllPostsAsync()).Where(p => p.PostType == PostType.BlogPost).Cast<BlogPost>().ToList();
 
         // Assume a default timezone
         TimeZoneInfo userTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
