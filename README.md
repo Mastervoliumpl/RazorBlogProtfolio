@@ -1,14 +1,15 @@
-# Devblog & Portfolio Project (Razor version)
+# Devblog & Portfolio Project
 ### By Mastervoliumpl
 
 ## Description:
-This project creates the backend for a devblog and portfolio website. SOLID was taken into consideration while creating the project.
+This project creates the backend for a devblog and portfolio website. SOLID & CRUD was taken into consideration while creating the project.
 
 ## Main features:
 - Create, display, update, and delete Blogposts and Portfoilo posts.
 
 ## Known issues:
-- Data does not save after application is closed.
+- Tags are not implemented in the frontend
+- UnitTests most likely don't work with new database changes
 
 ## Technologies used:
 - C# 12 
@@ -16,8 +17,25 @@ This project creates the backend for a devblog and portfolio website. SOLID was 
 - Razor Pages
 - xUnit Test
 - Moq
+- SSMS
+- SQL
   
 ## Changelogs:
+- 1.2.0
+Polishing and finishing touches.
+
+- 1.1.9
+Made what made sense into Async
+
+- 1.1.8
+Reworked methods in C#
+
+- 1.1.5
+Added all procedures
+
+- 1.1.0
+Added Database
+
 - 1.0.1
 Readded unit tests from last repo
 
@@ -40,34 +58,28 @@ Razor Pages project initialized
 Changelog was not activley utilized throughout the project. But most recent version added unit tests for the project, as well as small improvements to the main code.
 
 ## TO DO:
-- Move Null checks to Repository for better error/exception handling/encapsulation.
-	- Improve error handling.
-- Implement Image handling for Blogposts and Portfolio posts.
-- Implement comments for Blogposts.
-	- Implement Users (authentication and authorization.)
-- Logging
-- 
-- Implement Razor pages for frontend.
-  1. Landing page
+- [ ] Implement Image handling for Blogposts and Portfolio posts.
+- [ ] Implement comments for Blogposts.
+	- [ ] Implement Users (authentication and authorization.)
+- [ ] Logging
+- [X] Implement Razor pages for frontend.
+  - [X] Landing page
     - Hvor man kan login på en login page (punkt 6.)
     - Hvor man kan gå til BlogPost
     - Hvor man kan gå til Portfolio
 
-  2. Page to display all posts
-  3. Page to display Portfolio items
-  4. Add CRUD
+  - [X] Page to display all posts
+  - [X] Page to display Portfolio items
+  - [X] Add CRUD
     - Page to create posts
     - Page to edit posts
     - Page to delete posts
     - "Read" of CRUD is specified above in 2 & 3.
-
-  5. Search through Blogposts
-  If I have time enough:
-  6. User accounts
-  7. Special Author permissions/login
-  8. Only author will be able to create posts
-  9. Comments for Blogposts 
-- Implement SQL Database for data storage.
+  - [ ] User accounts
+  - [ ] Special Author permissions/login
+  - [ ] Only author will be able to create posts
+  - [ ] Comments for Blogposts 
+- [X] Implement SQL Database for data storage.
 
 ## License:
 MIT License
